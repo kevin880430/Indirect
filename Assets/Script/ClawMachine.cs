@@ -9,7 +9,7 @@ public class ClawMachine : MonoBehaviour, IMachine
     public Transform claw;  // 爪子对象
     public float extendSpeed = 1f;  // 延伸速度
     public float clawSpeed = 1f;  // 爪子移动速度
-
+    public Animator ClawAnimator;
     private Vector3 originalPosition;
     private bool extending = false;
 
@@ -21,12 +21,15 @@ public class ClawMachine : MonoBehaviour, IMachine
         lineRenderer.SetPosition(1, originalPosition);
     }
 
+
     public void Activate(bool isActive)
     {
         if (isActive && !extending)
         {
+            ClawAnimator.SetBool("Open", true);
             StartCoroutine(ExtendRope());
         }
+
     }
 
     IEnumerator ExtendRope()
@@ -36,7 +39,7 @@ public class ClawMachine : MonoBehaviour, IMachine
         Vector3 startPos = originalPosition;
         Vector3 endPos = point2.position;
 
-        while (t < 1f)
+        while (t < 1f )
         {
             t += extendSpeed * Time.deltaTime;
             Vector3 newPosition = Vector3.Lerp(startPos, endPos, t);
@@ -47,12 +50,13 @@ public class ClawMachine : MonoBehaviour, IMachine
 
             yield return null;
         }
-
+        ClawAnimator.SetBool("Open", false);
         // 在生成结束后等待3秒
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(ClawAnimator.GetCurrentAnimatorStateInfo(0).length);
 
         // 返回到原始位置
         StartCoroutine(RetractRope());
+
     }
 
     IEnumerator RetractRope()
@@ -60,9 +64,10 @@ public class ClawMachine : MonoBehaviour, IMachine
         float t = 0f;
         Vector3 startPos = lineRenderer.GetPosition(1);
         Vector3 endPos = originalPosition;
-
+        
         while (t < 1f)
         {
+            
             t += extendSpeed * Time.deltaTime;
             Vector3 newPosition = Vector3.Lerp(startPos, endPos, t);
             lineRenderer.SetPosition(1, newPosition);
@@ -72,9 +77,11 @@ public class ClawMachine : MonoBehaviour, IMachine
 
             yield return null;
         }
-
         // 恢复到原始状态
         extending = false;
+        ClawAnimator.SetBool("Open", true);
+        yield return new WaitForSeconds(ClawAnimator.GetCurrentAnimatorStateInfo(0).length);
+        ClawAnimator.SetBool("Open", false);
         lineRenderer.SetPosition(1, originalPosition);
     }
 }
