@@ -22,7 +22,9 @@ public class JumpPadControl : MonoBehaviour,IMachine
         if (isTriggered)
         {
             collision.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up * jumpforce, ForceMode2D.Impulse);
+
         }
+       
     }
 }
 

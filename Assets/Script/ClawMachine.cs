@@ -8,7 +8,6 @@ public class ClawMachine : MonoBehaviour, IMachine
     public LineRenderer lineRenderer;  // LineRenderer组件
     public Transform claw;  // 爪子对象
     public float extendSpeed = 1f;  // 延伸速度
-    public float clawSpeed = 1f;  // 爪子移动速度
     public Animator ClawAnimator;
     private Vector3 originalPosition;
     private bool extending = false;
@@ -51,7 +50,7 @@ public class ClawMachine : MonoBehaviour, IMachine
             yield return null;
         }
         ClawAnimator.SetBool("Open", false);
-        // 在生成结束后等待3秒
+        // 等待抓取動畫
         yield return new WaitForSeconds(ClawAnimator.GetCurrentAnimatorStateInfo(0).length);
 
         // 返回到原始位置
@@ -78,11 +77,12 @@ public class ClawMachine : MonoBehaviour, IMachine
             yield return null;
         }
         // 恢复到原始状态
-        extending = false;
         ClawAnimator.SetBool("Open", true);
         yield return new WaitForSeconds(ClawAnimator.GetCurrentAnimatorStateInfo(0).length);
         ClawAnimator.SetBool("Open", false);
+        yield return new WaitForSeconds(ClawAnimator.GetCurrentAnimatorStateInfo(0).length);
         lineRenderer.SetPosition(1, originalPosition);
+        extending = false;
     }
 }
 

@@ -11,7 +11,12 @@ public class SwitchControl : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
                 // 调用机关的 Activate 方法
-                controlledMachine.GetComponent<IMachine>().Activate(true);
+            controlledMachine.GetComponent<IMachine>().Activate(true);
+            this.gameObject.transform.localScale = new Vector3(1.2f, 1.2f,1.0f);
+            if (controlledMachine.gameObject.name == "Pad")
+            {
+                controlledMachine.transform.Translate(Vector3.up * 0.1f);
+            }
         }
     }
 
@@ -19,8 +24,14 @@ public class SwitchControl : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-                // 调用机关的 Activate 方法
-                controlledMachine.GetComponent<IMachine>().Activate(false); 
+            controlledMachine.GetComponent<IMachine>().Activate(false);
+            this.gameObject.transform.localScale = new Vector3(1.0f, 1.0f,1.0f);
+            if (controlledMachine.gameObject.name == "Pad")
+            {
+                controlledMachine.transform.Translate(Vector3.down * 0.1f);
+            }
+            
+            
         }
     }
 }
