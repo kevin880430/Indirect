@@ -11,6 +11,7 @@ public class SceneManagement: MonoBehaviour
         //R‚ğ‰Ÿ‚µ‚½‚çƒƒCƒ“‰æ–Ê‚É–ß‚é
         if (Input.GetKeyDown(KeyCode.R))
         {
+            PlayerPrefs.DeleteAll();
             SceneManager.LoadScene("Stage1");
         }
     }

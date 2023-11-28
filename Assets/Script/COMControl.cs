@@ -43,5 +43,13 @@ public class COMControl : MonoBehaviour
         direction = -direction;
         touchtime = 0;
     }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Goal"))
+        {
+            print("Stop");
+            moveSpeed = 0;
+        }
+    }
 }
 

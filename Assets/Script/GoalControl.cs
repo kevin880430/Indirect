@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class GoalControl : MonoBehaviour
 {
+    public string nextStage;
     private void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.CompareTag("COM"))
@@ -15,7 +16,8 @@ public class GoalControl : MonoBehaviour
 
     public void GameClear()
     {
-        SceneManager.LoadScene("GameClear");
+        PlayerPrefs.SetFloat("RemainingTime",Timer.currentTime);
+        SceneManager.LoadScene(nextStage);
     }
    
 }

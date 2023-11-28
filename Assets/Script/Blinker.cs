@@ -15,6 +15,7 @@ public class Blinker : MonoBehaviour
     {
         //テキストオブジェクトを取得
         text = this.gameObject.GetComponent<Text>();
+        
     }
 
 
