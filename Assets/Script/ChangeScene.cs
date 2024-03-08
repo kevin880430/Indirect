@@ -16,12 +16,14 @@ public class ChangeScene : MonoBehaviour
     public string nextStage;
     void Start()
     {
+        //ステージの名前を取得する
         sceneName = SceneManager.GetActiveScene().name;
         //TransitionManagerをTransitionM に格納する
         TransitionM = TransitionManager.Instance();
     }
     private void Update()
     {
+        //タイトルとリザルト画面だけRキーでステージを切替
         if (sceneName == "Title" && Input.GetKeyDown(KeyCode.R))
         {
             PlayerPrefs.DeleteAll();
@@ -34,7 +36,8 @@ public class ChangeScene : MonoBehaviour
 
     }
 
-    //ONClicKに対応するSceneの切替方
+   
+    //ステージ遷移のメソッド
     public void TransitionToScene(string sceneName)
     {
         //Transition動画再生

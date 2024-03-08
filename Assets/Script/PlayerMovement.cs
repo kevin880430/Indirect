@@ -2,15 +2,22 @@
 
 public class PlayerMovement : MonoBehaviour
 {
-    public float moveSpeed = 5f; // 移动速度
-    public float jumpForce = 8f; // 跳跃力量
-    public LayerMask groundLayer; // 地面层
+    //プレイヤーの移動速度
+    public float moveSpeed = 5f;
+    //プレイヤーのジャンプ力
+    public float jumpForce = 8f; 
+    //地面レイヤー
+    public LayerMask groundLayer;
+    //ジャンプの入力しているかどうかのフラグ
     private bool JumpInput;
+    //ジャンプのキーが押されているかどうかのフラグ
     private bool JumpInputC;
+    //
     public float fallingMutiply=2.0f;
     public float shortJumpMutiply=1.0f;
     private SpriteRenderer sr;
     private Rigidbody2D rb2d;
+    //地面にいるかどうかのフラグ
     public bool isGrounded;
     public enum FallingState
     {
@@ -20,13 +27,14 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
+        //RididBody2Dとスプライトを取得する
         rb2d = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
     }
 
     void Update()
     {
-        // 检测是否在地面上
+        //RayCastで地面にいるかどうかを検知
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 0.7f, groundLayer);
         isGrounded = hit.collider != null;
         Debug.DrawRay(transform.position, Vector2.down * 0.7f, Color.red);
@@ -34,7 +42,8 @@ public class PlayerMovement : MonoBehaviour
         {
             JumpInput = true;
         }
-
+        //キーが押されてる時間によるジャンプの高さを変えるため
+        //キーが押されているかどうかを検知
         if (Input.GetKey(KeyCode.Space))
         {
             JumpInputC = true;
@@ -43,23 +52,23 @@ public class PlayerMovement : MonoBehaviour
         {
             JumpInputC = false;
         }
-
-
-
     }
     private void FixedUpdate()
     {
         Move();
-        // 跳跃
+        //ジャンプの入力がある時
         if (JumpInput)
         {
+            //次の入力までジャンプさせない
             JumpInput = false;
             Jump();
         }
+        //RigidBodyの垂直速度が0以下(落下中)の時さらに重力を加える
         if (rb2d.velocity.y <0)
         {
             rb2d.velocity += Vector2.up * (Physics2D.gravity.y * fallingMutiply) * Time.deltaTime;
         }
+        //RigidBodyの垂直速度が0以上(ジャンプ中)かつキーが押されてないの時重力は普通にする
         else if (rb2d.velocity.y > 0&&!JumpInputC)
         {
             rb2d.velocity += Vector2.up * (Physics2D.gravity.y * shortJumpMutiply) * Time.deltaTime;
@@ -70,6 +79,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Jump()
     {
+        //地面にいる時だけジャンプできる
         if (isGrounded)
         {
             rb2d.AddForce(Vector2.up *jumpForce,ForceMode2D.Impulse);
@@ -78,10 +88,10 @@ public class PlayerMovement : MonoBehaviour
 
     void Move()
     {
-        // 左右移动
+        // 左右移動
         float horizontalInput = Input.GetAxis("Horizontal");
         rb2d.velocity = new Vector2(horizontalInput * moveSpeed, rb2d.velocity.y);
-        
+        //方向に応じでスプライトを反転する
         if (horizontalInput > 0)
         {
             sr.flipX = false;
