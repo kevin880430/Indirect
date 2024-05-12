@@ -9,10 +9,10 @@ public class SceneManagement: MonoBehaviour
     void Update()
     {
         //R‚ğ‰Ÿ‚µ‚½‚çƒƒCƒ“‰æ–Ê‚É–ß‚é
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.anyKeyDown)
         {
             PlayerPrefs.DeleteAll();
-            SceneManager.LoadScene("Stage1");
+            SceneManager.LoadScene("SelectMenuM");
         }
     }
 }

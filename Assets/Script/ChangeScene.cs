@@ -24,12 +24,12 @@ public class ChangeScene : MonoBehaviour
     private void Update()
     {
         //タイトルとリザルト画面だけRキーでステージを切替
-        if (sceneName == "Title" && Input.GetKeyDown(KeyCode.R))
+        if (sceneName == "TitleM" && Input.GetMouseButtonDown(0))
         {
             PlayerPrefs.DeleteAll();
             TransitionToScene(nextStage);
         }
-        else if(sceneName == "GameClear" && Input.GetKeyDown(KeyCode.R))
+        else if(sceneName == "GameClearM" && Input.anyKeyDown)
         {
             TransitionToScene(nextStage);
         }
